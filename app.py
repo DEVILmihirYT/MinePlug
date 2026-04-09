@@ -1,0 +1,40 @@
+import streamlit as st
+from groq import Groq
+
+# Page Setup
+st.set_page_config(page_title="MinePlug AI", page_icon="⛏️")
+st.title("⛏️ MinePlug AI - Minecraft Plugin Maker")
+
+# API Key
+GROQ_API_KEY = "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"
+
+# Input Area
+prompt = st.text_area("What plugin do you want to create?", 
+                     placeholder="Example: A plugin that gives a diamond to players when they jump.",
+                     height=150)
+
+if st.button("Generate Java Code"):
+    if not prompt:
+        st.warning("Pehle idea toh likho!")
+    else:
+        try:
+            client = Groq(api_key=GROQ_API_KEY)
+            with st.spinner("DeepSeek AI dimaag laga raha hai..."):
+                completion = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=[
+                        {
+                            "role": "system", 
+                            "content": "You are an expert Minecraft Spigot plugin developer. Provide only the complete Java code. No talk, just code. Use the latest Spigot API."
+                        },
+                        {"role": "user", "content": f"Create a Minecraft plugin for: {prompt}"}
+                    ]
+                )
+                res = completion.choices[0].message.content
+                st.success("Lo bhai, aapka plugin taiyar hai!")
+                st.code(res, language='java')
+        except Exception as e:
+            st.error(f"Error: {e}")
+
+st.divider()
+st.caption("MinePlug AI v1.0 | Fast & Automated")
