@@ -1,4 +1,4 @@
-import streamlit as st
+                import streamlit as st
 from groq import Groq
 
 # Page Setup
@@ -20,8 +20,9 @@ if st.button("Generate Java Code"):
         try:
             client = Groq(api_key=GROQ_API_KEY)
             with st.spinner("DeepSeek AI dimaag laga raha hai..."):
+                # Ye hai wo hissa jo tune change kiya tha
                 completion = client.chat.completions.create(
-                    model="llama-3.1-70b-versatile",
+                    model="llama-3.3-70b-versatile",
                     messages=[
                         {
                             "role": "system", 
